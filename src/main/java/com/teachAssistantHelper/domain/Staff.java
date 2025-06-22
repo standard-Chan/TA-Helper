@@ -1,9 +1,7 @@
 package com.teachAssistantHelper.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.teachAssistantHelper.enumerate.Role;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,5 +22,12 @@ public class Staff {
     private String userId;
     private String password;
     private String phoneNumber;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    public boolean canCreateAccount() {
+        return Role.ADMIN.equals(this.role);
+    }
 }
 
