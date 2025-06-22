@@ -33,7 +33,11 @@ public enum ErrorCode {
 
     // 주간 수업 기록
     WEEKLY_RECORD_NOT_FOUND("해당 주간 수업 기록이 존재하지 않습니다.", HttpStatus.NOT_FOUND),
+
+    // 주간 보충 수업 기록
+    WEEKLY_EXTRA_RECORD_NOT_FOUND("해당 보충수업 주간 기록이 존재하지 않습니다.", HttpStatus.NOT_FOUND)
     ;
+
 
 
 
