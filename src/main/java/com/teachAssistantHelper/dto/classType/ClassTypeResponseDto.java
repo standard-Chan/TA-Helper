@@ -1,8 +1,6 @@
-package com.teachAssistantHelper.dto;
+package com.teachAssistantHelper.dto.classType;
 
 import com.teachAssistantHelper.domain.ClassType;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 
 @Getter

@@ -1,11 +1,11 @@
-package com.teachAssistantHelper.dto;
+package com.teachAssistantHelper.dto.classType;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
 @Getter
-public class ClassTypeRequestDto {
+@NoArgsConstructor
+public class ClassTypeUpdateDto {
     private String name;
     private String book;
     private String test;

@@ -1,7 +1,8 @@
 package com.teachAssistantHelper.controller;
 
-import com.teachAssistantHelper.dto.ClassTypeRequestDto;
-import com.teachAssistantHelper.dto.ClassTypeResponseDto;
+import com.teachAssistantHelper.dto.classType.ClassTypeRequestDto;
+import com.teachAssistantHelper.dto.classType.ClassTypeResponseDto;
+import com.teachAssistantHelper.dto.classType.ClassTypeUpdateDto;
 import com.teachAssistantHelper.service.ClassTypeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -24,5 +25,19 @@ public class ClassTypeController {
     @GetMapping
     public ResponseEntity<List<ClassTypeResponseDto>> getAllClassTypes() {
         return ResponseEntity.ok(classTypeService.getAllClassTypes());
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ClassTypeResponseDto> updateClassType(
+            @PathVariable Long id,
+            @RequestBody ClassTypeUpdateDto dto
+    ) {
+        return ResponseEntity.ok(classTypeService.updateClassType(id, dto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteClassType(@PathVariable Long id) {
+        classTypeService.deleteClassType(id);
+        return ResponseEntity.noContent().build();
     }
 }

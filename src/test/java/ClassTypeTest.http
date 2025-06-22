@@ -12,3 +12,9 @@ Content-Type: application/json
 ### 데이터 가져오기
 GET http://localhost:8080/api/class-types
 Content-Type: application/json
+
+### 오류 테스트
+DELETE http://localhost:8080/api/class-types/2
+Content-Type: application/json
+
+
