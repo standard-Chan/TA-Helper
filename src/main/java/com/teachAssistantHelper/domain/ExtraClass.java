@@ -1,0 +1,34 @@
+package com.teachAssistantHelper.domain;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import java.time.DayOfWeek;
+import java.time.LocalTime;
+
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Entity
+public class ExtraClass {
+
+    @Id @GeneratedValue
+    private Long id;
+
+    @ManyToOne
+    private Academy academyId;
+
+    @Enumerated(EnumType.STRING)
+    private DayOfWeek days;
+
+
+    private LocalTime startTime;
+    private LocalTime endTime;
+
+    @ManyToOne
+    private Staff staff;
+}
