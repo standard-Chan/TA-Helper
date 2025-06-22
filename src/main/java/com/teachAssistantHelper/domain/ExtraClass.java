@@ -16,11 +16,12 @@ import java.time.LocalTime;
 @Entity
 public class ExtraClass {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    private Academy academyId;
+    private Academy academy;
 
     @Enumerated(EnumType.STRING)
     private DayOfWeek days;
