@@ -29,7 +29,11 @@ public enum ErrorCode {
     STUDENT_NOT_FOUND("해당 학생이 존재하지 않습니다.", HttpStatus.NOT_FOUND),
 
     // Extra-Class
-    EXTRA_CLASS_NOT_FOUND("해당 보충수업이 존재하지 않습니다.", HttpStatus.NOT_FOUND);
+    EXTRA_CLASS_NOT_FOUND("해당 보충수업이 존재하지 않습니다.", HttpStatus.NOT_FOUND),
+
+    // 주간 수업 기록
+    WEEKLY_RECORD_NOT_FOUND("해당 주간 수업 기록이 존재하지 않습니다.", HttpStatus.NOT_FOUND),
+    ;
 
 
 
