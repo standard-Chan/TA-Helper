@@ -5,7 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.sql.Timestamp;
 import java.time.LocalTime;
 
 @Getter
@@ -33,7 +36,16 @@ public class WeeklyExtraClassRecord {
     private LocalTime exitTime;
     private int testScore;
 
-    @Embedded
-    private Auditable auditable;
+    @ManyToOne
+    private Staff createdBy;
+
+    @ManyToOne
+    private Staff updatedBy;
+
+    @CreationTimestamp
+    private Timestamp createdAt;
+
+    @UpdateTimestamp
+    private Timestamp updatedAt;
 }
 

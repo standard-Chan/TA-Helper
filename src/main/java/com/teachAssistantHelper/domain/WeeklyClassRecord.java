@@ -5,6 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.sql.Timestamp;
 
 @Getter
 @NoArgsConstructor
@@ -29,6 +33,15 @@ public class WeeklyClassRecord {
     private int homeworkScore;
     private String note;
 
-    @Embedded
-    private Auditable auditable;
+    @ManyToOne
+    private Staff createdBy;
+
+    @ManyToOne
+    private Staff updatedBy;
+
+    @CreationTimestamp
+    private Timestamp createdAt;
+
+    @UpdateTimestamp
+    private Timestamp updatedAt;
 }

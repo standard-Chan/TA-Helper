@@ -15,7 +15,7 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @Builder
 @Table(name = "class") // 'class'는 예약어라 명시 필요
-public class ClassEntity {
+public class ClassEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

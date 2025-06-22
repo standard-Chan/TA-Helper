@@ -5,7 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedDate;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Getter
@@ -23,7 +26,9 @@ public class Notice {
     private ClassEntity classEntity;
 
     private String content;
-    private LocalDateTime createdAt;
+
+    @CreationTimestamp
+    private Timestamp createdAt;
     private int weekNo;
 }
 
