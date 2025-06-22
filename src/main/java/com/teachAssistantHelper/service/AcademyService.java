@@ -3,6 +3,8 @@ package com.teachAssistantHelper.service;
 import com.teachAssistantHelper.domain.Academy;
 import com.teachAssistantHelper.dto.academy.AcademyRequestDto;
 import com.teachAssistantHelper.dto.academy.AcademyResponseDto;
+import com.teachAssistantHelper.exception.AcademyException;
+import com.teachAssistantHelper.exception.ClassTypeException;
 import com.teachAssistantHelper.exception.CustomException;
 import com.teachAssistantHelper.exception.ErrorCode;
 import com.teachAssistantHelper.repository.AcademyRepository;
@@ -35,7 +37,7 @@ public class AcademyService {
 
     public AcademyResponseDto update(Long id, AcademyRequestDto dto) {
         Academy existing = academyRepository.findById(id)
-                .orElseThrow(() -> new CustomException(ErrorCode.CLASS_TYPE_NOT_FOUND)); // 필요시 ACADEMY_NOT_FOUND 추가해도 됨
+                .orElseThrow(() -> new AcademyException(ErrorCode.CLASS_TYPE_NOT_FOUND)); // 필요시 ACADEMY_NOT_FOUND 추가해도 됨
 
         Academy updated = Academy.builder()
                 .id(existing.getId())
@@ -49,7 +51,7 @@ public class AcademyService {
 
     public void delete(Long id) {
         if (!academyRepository.existsById(id)) {
-            throw new CustomException(ErrorCode.CLASS_TYPE_NOT_FOUND); // 필요시 별도 에러코드 분리
+            throw new AcademyException(ErrorCode.ACADEMY_NOT_FOUND);
         }
         academyRepository.deleteById(id);
     }

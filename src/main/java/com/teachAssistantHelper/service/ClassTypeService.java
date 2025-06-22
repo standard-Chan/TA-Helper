@@ -4,6 +4,7 @@ import com.teachAssistantHelper.domain.ClassType;
 import com.teachAssistantHelper.dto.classType.ClassTypeRequestDto;
 import com.teachAssistantHelper.dto.classType.ClassTypeResponseDto;
 import com.teachAssistantHelper.dto.classType.ClassTypeUpdateDto;
+import com.teachAssistantHelper.exception.ClassTypeException;
 import com.teachAssistantHelper.exception.CustomException;
 import com.teachAssistantHelper.exception.ErrorCode;
 import com.teachAssistantHelper.repository.ClassTypeRepository;
@@ -38,7 +39,7 @@ public class ClassTypeService {
 
     public ClassTypeResponseDto updateClassType(Long id, ClassTypeUpdateDto dto) {
         ClassType classType = classTypeRepository.findById(id)
-                .orElseThrow(() -> new CustomException(ErrorCode.CLASS_TYPE_NOT_FOUND));
+                .orElseThrow(() -> new ClassTypeException(ErrorCode.CLASS_TYPE_NOT_FOUND));
 
         classType = ClassType.builder()
                 .id(classType.getId())
@@ -53,7 +54,7 @@ public class ClassTypeService {
 
     public void deleteClassType(Long id) {
         if (!classTypeRepository.existsById(id)) {
-            throw new CustomException(ErrorCode.CLASS_TYPE_NOT_FOUND);
+            throw new ClassTypeException(ErrorCode.CLASS_TYPE_NOT_FOUND);
         }
         classTypeRepository.deleteById(id);
     }
