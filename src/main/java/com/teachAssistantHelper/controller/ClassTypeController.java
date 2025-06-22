@@ -38,6 +38,6 @@ public class ClassTypeController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteClassType(@PathVariable Long id) {
         classTypeService.deleteClassType(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 }

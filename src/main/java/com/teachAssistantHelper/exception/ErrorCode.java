@@ -20,7 +20,10 @@ public enum ErrorCode {
     DUPLICATE_USER_ID("이미 존재하는 사용자 ID입니다.", HttpStatus.CONFLICT),
 
     // Class
-    CLASS_NOT_FOUND("해당 수업이 존재하지 않습니다.", HttpStatus.NOT_FOUND);
+    CLASS_NOT_FOUND("해당 수업이 존재하지 않습니다.", HttpStatus.NOT_FOUND),
+
+    // Student
+    STUDENT_NOT_FOUND("해당 학생이 존재하지 않습니다.", HttpStatus.NOT_FOUND);
 
 
 
