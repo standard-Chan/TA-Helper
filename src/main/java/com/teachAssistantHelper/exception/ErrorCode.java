@@ -26,7 +26,11 @@ public enum ErrorCode {
     NOTICE_NOT_FOUND("해당 공지가 존재하지 않습니다.", HttpStatus.NOT_FOUND),
 
     // Student
-    STUDENT_NOT_FOUND("해당 학생이 존재하지 않습니다.", HttpStatus.NOT_FOUND);
+    STUDENT_NOT_FOUND("해당 학생이 존재하지 않습니다.", HttpStatus.NOT_FOUND),
+
+    // Extra-Class
+    EXTRA_CLASS_NOT_FOUND("해당 보충수업이 존재하지 않습니다.", HttpStatus.NOT_FOUND);
+
 
 
 

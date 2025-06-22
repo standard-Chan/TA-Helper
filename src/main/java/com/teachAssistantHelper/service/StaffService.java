@@ -5,7 +5,7 @@ import com.teachAssistantHelper.dto.staff.StaffRequestDto;
 import com.teachAssistantHelper.dto.staff.StaffResponseDto;
 import com.teachAssistantHelper.dto.staff.StaffRoleUpdateRequestDto;
 import com.teachAssistantHelper.exception.ErrorCode;
-import com.teachAssistantHelper.exception.StaffException;
+import com.teachAssistantHelper.exception.domainException.StaffException;
 import com.teachAssistantHelper.repository.StaffRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

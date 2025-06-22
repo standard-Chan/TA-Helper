@@ -6,7 +6,7 @@ import com.teachAssistantHelper.domain.ClassEntity;
 import com.teachAssistantHelper.domain.ClassType;
 import com.teachAssistantHelper.dto.classDto.ClassRequestDto;
 import com.teachAssistantHelper.dto.classDto.ClassResponseDto;
-import com.teachAssistantHelper.exception.ClassEntityException;
+import com.teachAssistantHelper.exception.domainException.ClassEntityException;
 import com.teachAssistantHelper.exception.ErrorCode;
 import com.teachAssistantHelper.repository.AcademyRepository;
 import com.teachAssistantHelper.repository.ClassRepository;

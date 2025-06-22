@@ -26,7 +26,6 @@ public class ExtraClass {
     @Enumerated(EnumType.STRING)
     private DayOfWeek days;
 
-
     private LocalTime startTime;
     private LocalTime endTime;
 
