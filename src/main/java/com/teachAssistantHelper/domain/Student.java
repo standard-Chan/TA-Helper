@@ -19,7 +19,7 @@ public class Student {
 
     private String name;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private ClassEntity classEntity;
 
     private String school;

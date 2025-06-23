@@ -20,7 +20,7 @@ public class ExtraClass {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Academy academy;
 
     @Enumerated(EnumType.STRING)
@@ -29,6 +29,6 @@ public class ExtraClass {
     private LocalTime startTime;
     private LocalTime endTime;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Staff staff;
 }

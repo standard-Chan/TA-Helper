@@ -21,10 +21,10 @@ public class ClassEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Academy academy;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private ClassType classType;
 
     @Enumerated(EnumType.STRING)

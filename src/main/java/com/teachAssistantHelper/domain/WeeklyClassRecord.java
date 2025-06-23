@@ -21,10 +21,10 @@ public class WeeklyClassRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Student student;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private ClassEntity classEntity;
 
     private int weekNo;
@@ -33,10 +33,10 @@ public class WeeklyClassRecord {
     private int homeworkScore;
     private String note;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Staff createdBy;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Staff updatedBy;
 
     @CreationTimestamp
