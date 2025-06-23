@@ -2,6 +2,7 @@ package com.teachAssistantHelper.service;
 
 import com.teachAssistantHelper.domain.ClassEntity;
 import com.teachAssistantHelper.domain.Notice;
+import com.teachAssistantHelper.dto.notice.NoticeDetailResponseDto;
 import com.teachAssistantHelper.dto.notice.NoticeRequestDto;
 import com.teachAssistantHelper.dto.notice.NoticeResponseDto;
 import com.teachAssistantHelper.exception.domainException.ClassEntityException;
@@ -38,6 +39,12 @@ public class NoticeService {
     public List<NoticeResponseDto> getAll() {
         return noticeRepository.findAll().stream()
                 .map(NoticeResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    public List<NoticeDetailResponseDto> getAllWithDetails() {
+        return noticeRepository.findAllWithDetails().stream()
+                .map(NoticeDetailResponseDto::new)
                 .collect(Collectors.toList());
     }
 

@@ -1,5 +1,6 @@
 package com.teachAssistantHelper.controller;
 
+import com.teachAssistantHelper.dto.notice.NoticeDetailResponseDto;
 import com.teachAssistantHelper.dto.notice.NoticeRequestDto;
 import com.teachAssistantHelper.dto.notice.NoticeResponseDto;
 import com.teachAssistantHelper.service.NoticeService;
@@ -24,6 +25,11 @@ public class NoticeController {
     @GetMapping
     public ResponseEntity<List<NoticeResponseDto>> getAll() {
         return ResponseEntity.ok(noticeService.getAll());
+    }
+
+    @GetMapping("/details")
+    public ResponseEntity<List<NoticeDetailResponseDto>> getAllWithDetails() {
+        return ResponseEntity.ok(noticeService.getAllWithDetails());
     }
 
     @GetMapping("/{id}")
