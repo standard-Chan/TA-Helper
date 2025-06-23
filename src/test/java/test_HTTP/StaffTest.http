@@ -3,9 +3,9 @@ POST http://localhost:8080/api/staffs
 Content-Type: application/json
 
 {
-  "name": "관리자",
-  "userId": "admin1",
-  "password": "1234",
+  "name": "석찬이",
+  "userId": "tjrcks",
+  "password": "tjrcksdl",
   "phoneNumber": "010-1111-2222",
   "role": "ADMIN"
 }
@@ -15,7 +15,7 @@ GET http://localhost:8080/api/staffs
 
 
 ### 삭제
-DELETE http://localhost:8080/api/staffs/3
+DELETE http://localhost:8080/api/staffs/7
 
 
 ### 수정

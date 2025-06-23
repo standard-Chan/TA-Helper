@@ -17,11 +17,11 @@ public class GlobalExceptionHandler {
     }
 
     // 예상치 못한 예외 처리
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleException(Exception e) {
-        return ResponseEntity
-                .status(ErrorCode.INTERNAL_SERVER_ERROR.getStatus())
-                .body(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR));
-    }
+//    @ExceptionHandler(Exception.class)
+//    public ResponseEntity<ErrorResponse> handleException(Exception e) {
+//        return ResponseEntity
+//                .status(ErrorCode.INTERNAL_SERVER_ERROR.getStatus())
+//                .body(new ErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR));
+//    }
 }
 

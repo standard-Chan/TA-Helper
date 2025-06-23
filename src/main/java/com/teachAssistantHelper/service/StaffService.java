@@ -9,6 +9,8 @@ import com.teachAssistantHelper.exception.domainException.StaffException;
 import com.teachAssistantHelper.repository.StaffRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +21,7 @@ import java.util.stream.Collectors;
 public class StaffService {
 
     private final StaffRepository staffRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public List<StaffResponseDto> getAllStaffs() {
         return staffRepository.findAll().stream()
@@ -38,7 +41,7 @@ public class StaffService {
         Staff staff = Staff.builder()
                 .name(dto.getName())
                 .userId(dto.getUserId())
-                .password(dto.getPassword())  // 암호화
+                .password(passwordEncoder.encode(dto.getPassword()))  // 암호화
                 .phoneNumber(dto.getPhoneNumber())
                 .role(dto.getRole())
                 .build();
