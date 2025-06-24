@@ -1,11 +1,15 @@
 package com.teachAssistantHelper.controller;
 
+import com.teachAssistantHelper.domain.Staff;
 import com.teachAssistantHelper.dto.staff.StaffRequestDto;
 import com.teachAssistantHelper.dto.staff.StaffResponseDto;
+import com.teachAssistantHelper.dto.staff.StaffRoleResponseDto;
 import com.teachAssistantHelper.dto.staff.StaffRoleUpdateRequestDto;
+import com.teachAssistantHelper.security.CustomUserDetails;
 import com.teachAssistantHelper.service.StaffService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -45,6 +49,11 @@ public class StaffController {
             @RequestBody StaffRoleUpdateRequestDto dto
     ) {
         return ResponseEntity.ok(staffService.updateRole(id, dto));
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<StaffRoleResponseDto> getMyRole(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        return ResponseEntity.ok(new StaffRoleResponseDto(userDetails.getStaff().getRole()));
     }
 
 }

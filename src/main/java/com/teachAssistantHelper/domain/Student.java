@@ -1,12 +1,15 @@
 package com.teachAssistantHelper.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -19,13 +22,28 @@ public class Student {
 
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private ClassEntity classEntity;
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Set<ClassEntity> classes;
 
     private String school;
     private String parentPhoneNumber;
     private String phoneNumber;
     private String email;
     private int age;
+
+    public Student(String name, String school,
+                   String parentPhoneNumber, String phoneNumber, String email, int age){
+        this.name = name;
+        this.school = school;
+        this.parentPhoneNumber = parentPhoneNumber;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.age = age;
+        this.classes = new HashSet<>();
+    }
+
+    public void addClass(ClassEntity classEntity) {
+        this.classes.add(classEntity);
+    }
 }
 

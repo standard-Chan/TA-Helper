@@ -12,6 +12,7 @@ import com.teachAssistantHelper.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,15 +27,10 @@ public class StudentService {
         ClassEntity classEntity = classRepository.findById(dto.getClassId())
                 .orElseThrow(() -> new ClassEntityException(ErrorCode.CLASS_NOT_FOUND));
 
-        Student student = Student.builder()
-                .name(dto.getName())
-                .classEntity(classEntity)
-                .school(dto.getSchool())
-                .parentPhoneNumber(dto.getParentPhoneNumber())
-                .phoneNumber(dto.getPhoneNumber())
-                .email(dto.getEmail())
-                .age(dto.getAge())
-                .build();
+        Student student = new Student(dto.getName(), dto.getSchool(), dto.getParentPhoneNumber(),
+                dto.getPhoneNumber(), dto.getEmail(), dto.getAge());
+
+        student.addClass(classEntity);
 
         return new StudentResponseDto(studentRepository.save(student));
     }
@@ -57,18 +53,15 @@ public class StudentService {
         ClassEntity classEntity = classRepository.findById(dto.getClassId())
                 .orElseThrow(() -> new ClassEntityException(ErrorCode.CLASS_NOT_FOUND));
 
-        Student updated = Student.builder()
-                .id(original.getId())
-                .name(dto.getName())
-                .classEntity(classEntity)
-                .school(dto.getSchool())
-                .parentPhoneNumber(dto.getParentPhoneNumber())
-                .phoneNumber(dto.getPhoneNumber())
-                .email(dto.getEmail())
-                .age(dto.getAge())
-                .build();
+        original.setName(dto.getName());
+        original.setSchool(dto.getSchool());
+        original.setPhoneNumber(dto.getPhoneNumber());
+        original.setParentPhoneNumber(dto.getParentPhoneNumber());
+        original.setEmail(dto.getEmail());
+        original.setAge(dto.getAge());
+        original.addClass(classEntity);
 
-        return new StudentResponseDto(studentRepository.save(updated));
+        return new StudentResponseDto(studentRepository.save(original));
     }
 
     public void delete(Long id) {
