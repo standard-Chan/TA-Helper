@@ -1,6 +1,7 @@
 package com.teachAssistantHelper.service;
 
 import com.teachAssistantHelper.domain.*;
+import com.teachAssistantHelper.dto.student.StudentDto;
 import com.teachAssistantHelper.dto.weeklyClassRecord.WeeklyClassRecordRequestDto;
 import com.teachAssistantHelper.dto.weeklyClassRecord.WeeklyClassRecordResponseDto;
 import com.teachAssistantHelper.dto.weeklyClassRecord.WeeklyClassRecordWithStudentResponseDto;
@@ -10,10 +11,12 @@ import com.teachAssistantHelper.exception.domainException.StaffException;
 import com.teachAssistantHelper.exception.domainException.StudentException;
 import com.teachAssistantHelper.exception.domainException.WeeklyClassRecordException;
 import com.teachAssistantHelper.repository.*;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,17 +27,12 @@ public class WeeklyClassRecordService {
     private final StudentRepository studentRepository;
     private final ClassRepository classRepository;
     private final StaffRepository staffRepository;
-    private final WeeklyClassRecordRepository weeklyClassRecordRepository;
 
-    public WeeklyClassRecordResponseDto create(WeeklyClassRecordRequestDto dto) {
+    public WeeklyClassRecordResponseDto create(WeeklyClassRecordRequestDto dto, Staff staff) {
         Student student = studentRepository.findById(dto.getStudentId())
                 .orElseThrow(() -> new StudentException(ErrorCode.STUDENT_NOT_FOUND));
         ClassEntity classEntity = classRepository.findById(dto.getClassId())
                 .orElseThrow(() -> new ClassEntityException(ErrorCode.CLASS_NOT_FOUND));
-        Staff createdBy = staffRepository.findById(dto.getCreatedById())
-                .orElseThrow(() -> new StaffException(ErrorCode.STAFF_NOT_FOUND));
-        Staff updatedBy = staffRepository.findById(dto.getUpdatedById())
-                .orElseThrow(() -> new StaffException(ErrorCode.STAFF_NOT_FOUND));
 
         WeeklyClassRecord record = WeeklyClassRecord.builder()
                 .student(student)
@@ -44,8 +42,8 @@ public class WeeklyClassRecordService {
                 .testScore(dto.getTestScore())
                 .homeworkScore(dto.getHomeworkScore())
                 .note(dto.getNote())
-                .createdBy(createdBy)
-                .updatedBy(updatedBy)
+                .createdBy(staff)
+                .updatedBy(staff)
                 .build();
 
         return new WeeklyClassRecordResponseDto(recordRepository.save(record));
@@ -63,15 +61,13 @@ public class WeeklyClassRecordService {
         return new WeeklyClassRecordResponseDto(record);
     }
 
-    public WeeklyClassRecordResponseDto update(Long id, WeeklyClassRecordRequestDto dto) {
+    public WeeklyClassRecordResponseDto update(Long id, WeeklyClassRecordRequestDto dto, Staff staff) {
         WeeklyClassRecord existing = recordRepository.findById(id)
                 .orElseThrow(() -> new WeeklyClassRecordException(ErrorCode.WEEKLY_RECORD_NOT_FOUND));
         Student student = studentRepository.findById(dto.getStudentId())
                 .orElseThrow(() -> new StudentException(ErrorCode.STUDENT_NOT_FOUND));
         ClassEntity classEntity = classRepository.findById(dto.getClassId())
                 .orElseThrow(() -> new ClassEntityException(ErrorCode.CLASS_NOT_FOUND));
-        Staff updatedBy = staffRepository.findById(dto.getUpdatedById())
-                .orElseThrow(() -> new StaffException(ErrorCode.STAFF_NOT_FOUND));
 
         WeeklyClassRecord updated = WeeklyClassRecord.builder()
                 .id(existing.getId())
@@ -83,7 +79,7 @@ public class WeeklyClassRecordService {
                 .homeworkScore(dto.getHomeworkScore())
                 .note(dto.getNote())
                 .createdBy(existing.getCreatedBy())  // 생성자는 그대로 유지
-                .updatedBy(updatedBy)
+                .updatedBy(staff)
                 .createdAt(existing.getCreatedAt())  // 시간도 유지
                 .build();
 
@@ -110,6 +106,20 @@ public class WeeklyClassRecordService {
         ClassEntity classEntity = classRepository.findById(classId).orElseThrow(()->new ClassEntityException(ErrorCode.CLASS_NOT_FOUND));
 
         return recordRepository.findWeekNosByClassEntity(classEntity);
+    }
+
+    /** 데이터가 존재하면 UPDATE, 데이터가 없으면 INSERT*/
+    @Transactional
+    public WeeklyClassRecordResponseDto upsert(WeeklyClassRecordRequestDto dto, Staff staff) {
+        Student student = studentRepository.findById(dto.getStudentId()).orElseThrow(()-> new StudentException(ErrorCode.STUDENT_NOT_FOUND));
+        Optional<WeeklyClassRecord> record = recordRepository.findByStudentAndWeekNo(student, dto.getWeekNo());
+
+        // 이미 존재하는 경우
+        if (record.isPresent()) { // UPDATE
+            return update(record.get().getId(), dto, staff);
+        } else { // INSERT
+            return create(dto, staff);
+        }
     }
 
 }

@@ -13,7 +13,5 @@ public class WeeklyClassRecordRequestDto {
     private int testScore;
     private int homeworkScore;
     private String note;
-    private Long createdById;
-    private Long updatedById;
 }
 

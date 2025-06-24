@@ -3,10 +3,13 @@ package com.teachAssistantHelper.controller;
 import com.teachAssistantHelper.dto.weeklyClassRecord.WeeklyClassRecordRequestDto;
 import com.teachAssistantHelper.dto.weeklyClassRecord.WeeklyClassRecordResponseDto;
 import com.teachAssistantHelper.dto.weeklyClassRecord.WeeklyClassRecordWithStudentResponseDto;
+import com.teachAssistantHelper.security.CustomUserDetails;
 import com.teachAssistantHelper.service.WeeklyClassRecordService;
 import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,8 +22,12 @@ public class WeeklyClassRecordController {
     private final WeeklyClassRecordService recordService;
 
     @PostMapping
-    public ResponseEntity<WeeklyClassRecordResponseDto> create(@RequestBody WeeklyClassRecordRequestDto dto) {
-        return ResponseEntity.ok(recordService.create(dto));
+    public ResponseEntity<List<WeeklyClassRecordResponseDto>> saveRecords(@RequestBody List<WeeklyClassRecordRequestDto> recordDtoList,
+                                                                          @AuthenticationPrincipal CustomUserDetails userDetails) {
+        List<WeeklyClassRecordResponseDto> response = recordDtoList.stream()
+                .map(recordDto ->recordService.upsert(recordDto, userDetails.getStaff()))
+                .toList();
+        return ResponseEntity.status(201).build();
     }
 
 //    @GetMapping
@@ -39,8 +46,6 @@ public class WeeklyClassRecordController {
         return ResponseEntity.ok(recordService.getWeekNoListByClass(classId));
     }
 
-
-
     @GetMapping("/{id}")
     public ResponseEntity<WeeklyClassRecordResponseDto> getById(@PathVariable Long id) {
         return ResponseEntity.ok(recordService.getById(id));
@@ -49,9 +54,10 @@ public class WeeklyClassRecordController {
     @PutMapping("/{id}")
     public ResponseEntity<WeeklyClassRecordResponseDto> update(
             @PathVariable Long id,
-            @RequestBody WeeklyClassRecordRequestDto dto
+            @RequestBody WeeklyClassRecordRequestDto dto,
+            @AuthenticationPrincipal CustomUserDetails userDetails
     ) {
-        return ResponseEntity.ok(recordService.update(id, dto));
+        return ResponseEntity.ok(recordService.update(id, dto, userDetails.getStaff()));
     }
 
     @DeleteMapping("/{id}")
