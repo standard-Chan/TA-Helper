@@ -41,6 +41,13 @@ public class StudentService {
                 .collect(Collectors.toList());
     }
 
+    public List<StudentResponseDto> getAllByClass(Long classId) {
+        ClassEntity classEntity = classRepository.findById(classId).orElseThrow(() -> new ClassEntityException(ErrorCode.CLASS_NOT_FOUND));
+
+        return studentRepository.getStudentsByClasses(classEntity).stream()
+                .map(StudentResponseDto::new).toList();
+    }
+
     public StudentResponseDto getById(Long id) {
         Student student = studentRepository.findById(id)
                 .orElseThrow(() -> new StudentException(ErrorCode.STUDENT_NOT_FOUND));
