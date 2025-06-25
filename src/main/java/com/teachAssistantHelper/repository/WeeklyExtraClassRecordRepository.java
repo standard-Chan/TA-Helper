@@ -21,5 +21,7 @@ public interface WeeklyExtraClassRecordRepository extends JpaRepository<WeeklyEx
 
     @Query("SELECT w FROM WeeklyExtraClassRecord w JOIN FETCH w.student WHERE w.extraClass = :extraClass AND w.weekNo = :weekNo ORDER BY w.student.name")
     List<WeeklyExtraClassRecord> getWithStudentByExtraClassAndWeekNo(@Param("extraClass") ExtraClass extraClass, @Param("weekNo") int weekNo);
+
+    void deleteByStudentId(Long studentId);
 }
 

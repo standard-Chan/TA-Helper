@@ -22,5 +22,7 @@ public interface WeeklyClassRecordRepository extends JpaRepository<WeeklyClassRe
     List<Integer> findWeekNosByClassEntity(@Param("classEntity") ClassEntity classEntity);
 
     Optional<WeeklyClassRecord> findByStudentAndWeekNo(Student student, int weekNo);
+
+    void deleteByStudentId(Long studentId);
 }
 

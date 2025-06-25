@@ -1,19 +1,18 @@
 package com.teachAssistantHelper.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
+import java.util.Set;
 
 @Entity
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Setter
 @Table(name = "class") // 'class'는 예약어라 명시 필요
 public class ClassEntity{
 
@@ -26,6 +25,9 @@ public class ClassEntity{
 
     @ManyToOne(fetch = FetchType.LAZY)
     private ClassType classType;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Set<Student> student;
 
     @Enumerated(EnumType.STRING)
     private DayOfWeek days;
