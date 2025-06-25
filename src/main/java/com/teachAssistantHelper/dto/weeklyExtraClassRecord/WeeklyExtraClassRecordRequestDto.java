@@ -16,6 +16,4 @@ public class WeeklyExtraClassRecordRequestDto {
     private LocalTime attendedTime;
     private LocalTime exitTime;
     private int testScore;
-    private Long createdById;
-    private Long updatedById;
 }

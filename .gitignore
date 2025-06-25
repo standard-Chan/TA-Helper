@@ -42,3 +42,4 @@ bin/
 .DS_Store
 
 src/main/resources/application.yml
+src/test/java/test_HTTP/http-client.private.env.json

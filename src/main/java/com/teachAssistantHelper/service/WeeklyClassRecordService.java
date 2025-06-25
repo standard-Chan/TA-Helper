@@ -1,13 +1,11 @@
 package com.teachAssistantHelper.service;
 
 import com.teachAssistantHelper.domain.*;
-import com.teachAssistantHelper.dto.student.StudentDto;
 import com.teachAssistantHelper.dto.weeklyClassRecord.WeeklyClassRecordRequestDto;
 import com.teachAssistantHelper.dto.weeklyClassRecord.WeeklyClassRecordResponseDto;
 import com.teachAssistantHelper.dto.weeklyClassRecord.WeeklyClassRecordWithStudentResponseDto;
 import com.teachAssistantHelper.exception.*;
 import com.teachAssistantHelper.exception.domainException.ClassEntityException;
-import com.teachAssistantHelper.exception.domainException.StaffException;
 import com.teachAssistantHelper.exception.domainException.StudentException;
 import com.teachAssistantHelper.exception.domainException.WeeklyClassRecordException;
 import com.teachAssistantHelper.repository.*;

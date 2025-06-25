@@ -2,9 +2,12 @@ package com.teachAssistantHelper.controller;
 
 import com.teachAssistantHelper.dto.weeklyExtraClassRecord.WeeklyExtraClassRecordRequestDto;
 import com.teachAssistantHelper.dto.weeklyExtraClassRecord.WeeklyExtraClassRecordResponseDto;
+import com.teachAssistantHelper.dto.weeklyExtraClassRecord.WeeklyExtraClassRecordWithStudentResponseDto;
+import com.teachAssistantHelper.security.CustomUserDetails;
 import com.teachAssistantHelper.service.WeeklyExtraClassRecordService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,13 +20,16 @@ public class WeeklyExtraClassRecordController {
     private final WeeklyExtraClassRecordService recordService;
 
     @PostMapping
-    public ResponseEntity<WeeklyExtraClassRecordResponseDto> create(@RequestBody WeeklyExtraClassRecordRequestDto dto) {
-        return ResponseEntity.ok(recordService.create(dto));
+    public ResponseEntity<?> create(@RequestBody List<WeeklyExtraClassRecordRequestDto> recordDtoList,
+                                                                    @AuthenticationPrincipal CustomUserDetails userDetails) {
+        List<WeeklyExtraClassRecordResponseDto> response = recordDtoList.stream().map((recordDto) -> recordService.upsert(recordDto, userDetails.getStaff())).toList();
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping
-    public ResponseEntity<List<WeeklyExtraClassRecordResponseDto>> getAll() {
-        return ResponseEntity.ok(recordService.getAll());
+    public ResponseEntity<List<WeeklyExtraClassRecordWithStudentResponseDto>> getWithStudentByWeekAndExtraClass(@RequestParam("extraClass")Long extraClass,
+                                                                                                                @RequestParam("week")int weekNo) {
+        return ResponseEntity.ok(recordService.getWithStudentByWeekAndExtraClass(extraClass, weekNo));
     }
 
     @GetMapping("/{id}")
@@ -33,8 +39,9 @@ public class WeeklyExtraClassRecordController {
 
     @PutMapping("/{id}")
     public ResponseEntity<WeeklyExtraClassRecordResponseDto> update(@PathVariable Long id,
-                                                                    @RequestBody WeeklyExtraClassRecordRequestDto dto) {
-        return ResponseEntity.ok(recordService.update(id, dto));
+                                                                    @RequestBody WeeklyExtraClassRecordRequestDto dto,
+                                                                    @AuthenticationPrincipal CustomUserDetails userDetails) {
+        return ResponseEntity.ok(recordService.update(id, dto, userDetails.getStaff()));
     }
 
     @DeleteMapping("/{id}")
@@ -47,5 +54,6 @@ public class WeeklyExtraClassRecordController {
     public ResponseEntity<List<Integer>> getWeekNoListByExtraClass (@PathVariable Long extraClassId) {
         return ResponseEntity.ok(recordService.getWeekNoByExtraClass(extraClassId));
     }
+
 }
 

@@ -1,7 +1,6 @@
 ### 주간 수업 기록 생성
 POST http://localhost:8080/api/weekly-records
 Content-Type: application/json
-
 {
   "studentId": 1,
   "classId": 1,
@@ -15,7 +14,9 @@ Content-Type: application/json
 }
 
 ### 전체 조회
-GET http://localhost:8080/api/weekly-records/class=1&weekNo=1
+GET http://localhost:8080/api/weekly-records?class=1&week=1
+Content-Type: application/json
+Authorization: Bearer {{token}}}
 
 ### 단건 조회
 GET http://localhost:8080/api/weekly-records/1

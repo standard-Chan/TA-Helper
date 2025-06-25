@@ -22,7 +22,7 @@ public class WeeklyClassRecordController {
     private final WeeklyClassRecordService recordService;
 
     @PostMapping
-    public ResponseEntity<List<WeeklyClassRecordResponseDto>> saveRecords(@RequestBody List<WeeklyClassRecordRequestDto> recordDtoList,
+    public ResponseEntity<?> saveRecords(@RequestBody List<WeeklyClassRecordRequestDto> recordDtoList,
                                                                           @AuthenticationPrincipal CustomUserDetails userDetails) {
         List<WeeklyClassRecordResponseDto> response = recordDtoList.stream()
                 .map(recordDto ->recordService.upsert(recordDto, userDetails.getStaff()))
