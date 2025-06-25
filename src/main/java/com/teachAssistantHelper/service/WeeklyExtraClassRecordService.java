@@ -96,5 +96,12 @@ public class WeeklyExtraClassRecordService {
         }
         recordRepository.deleteById(id);
     }
+
+    public List<Integer> getWeekNoByExtraClass(Long extraClassId) {
+        ExtraClass extraClass = extraClassRepository.findById(extraClassId)
+                .orElseThrow(() -> new ExtraClassException(ErrorCode.EXTRA_CLASS_NOT_FOUND));
+
+        return recordRepository.getWeekNoListByExtraClass(extraClass);
+    }
 }
 

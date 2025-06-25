@@ -42,5 +42,10 @@ public class WeeklyExtraClassRecordController {
         recordService.delete(id);
         return ResponseEntity.ok("삭제 완료");
     }
+
+    @GetMapping("/extraClass/{extraClassId}/week")
+    public ResponseEntity<List<Integer>> getWeekNoListByExtraClass (@PathVariable Long extraClassId) {
+        return ResponseEntity.ok(recordService.getWeekNoByExtraClass(extraClassId));
+    }
 }
 
