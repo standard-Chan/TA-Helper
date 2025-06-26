@@ -16,6 +16,12 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @Builder
 @Entity
+@Table(
+        name = "weekly_extra_class_record",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"student_id", "extra_class_entity_id", "week_no"})
+        }
+)
 public class WeeklyExtraClassRecord {
 
     @Id

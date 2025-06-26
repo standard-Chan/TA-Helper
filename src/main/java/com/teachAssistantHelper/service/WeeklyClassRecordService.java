@@ -137,6 +137,12 @@ public class WeeklyClassRecordService {
         }
     }
 
+    /** upsert Query 를 통한 upsert */
+    @Transactional
+    public void improvedUpsert(List<WeeklyClassRecordRequestDto> dtos, Staff staff) {
+
+    }
+
     @Transactional
     public void bulkInsertRecords(List<WeeklyClassRecordRequestDto> dtos, Staff staff) {
         if (dtos.isEmpty()) return;

@@ -19,11 +19,18 @@ public class WeeklyExtraClassRecordController {
 
     private final WeeklyExtraClassRecordService recordService;
 
-    @PostMapping
-    public ResponseEntity<?> create(@RequestBody List<WeeklyExtraClassRecordRequestDto> recordDtoList,
+    @PostMapping("/each")
+    public ResponseEntity<?> createEach(@RequestBody List<WeeklyExtraClassRecordRequestDto> recordDtoList,
                                                                     @AuthenticationPrincipal CustomUserDetails userDetails) {
         List<WeeklyExtraClassRecordResponseDto> response = recordDtoList.stream().map((recordDto) -> recordService.upsert(recordDto, userDetails.getStaff())).toList();
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping
+    public ResponseEntity<?> upsert(@RequestBody List<WeeklyExtraClassRecordRequestDto> recordDtoList,
+                                    @AuthenticationPrincipal CustomUserDetails userDetails) {
+        recordService.bulkUpsertExtraRecords(recordDtoList, userDetails.getStaff());
+        return ResponseEntity.status(201).build();
     }
 
     @GetMapping

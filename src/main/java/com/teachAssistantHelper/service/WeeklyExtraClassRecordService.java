@@ -14,8 +14,12 @@ import com.teachAssistantHelper.exception.domainException.WeeklyExtraClassRecord
 import com.teachAssistantHelper.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,7 +30,7 @@ public class WeeklyExtraClassRecordService {
     private final WeeklyExtraClassRecordRepository recordRepository;
     private final StudentRepository studentRepository;
     private final ExtraClassRepository extraClassRepository;
-    private final StaffRepository staffRepository;
+    private final JdbcTemplate jdbcTemplate;
 
     public WeeklyExtraClassRecordResponseDto create(WeeklyExtraClassRecordRequestDto dto, Staff staff) {
         Student student = studentRepository.findById(dto.getStudentId())
@@ -117,5 +121,48 @@ public class WeeklyExtraClassRecordService {
             return create(dto, staff);
         }
     }
+
+    @Transactional
+    public void bulkUpsertExtraRecords(List<WeeklyExtraClassRecordRequestDto> dtos, Staff staff) {
+        if (dtos.isEmpty()) return;
+
+        // sql 문
+        String sql = """
+        INSERT INTO weekly_extra_class_record
+        (student_id, extra_class_id, week_no, reason, attended, attended_time, exit_time, test_score, created_by, updated_by)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ON DUPLICATE KEY UPDATE
+            reason = VALUES(reason),
+            attended = VALUES(attended),
+            attended_time = VALUES(attended_time),
+            exit_time = VALUES(exit_time),
+            test_score = VALUES(test_score),
+            updated_by = VALUES(updated_by)
+    """;
+
+        jdbcTemplate.batchUpdate(sql, new BatchPreparedStatementSetter() {
+            @Override
+            public void setValues(PreparedStatement ps, int i) throws SQLException {
+                WeeklyExtraClassRecordRequestDto dto = dtos.get(i);
+
+                ps.setLong(1, dto.getStudentId());
+                ps.setLong(2, dto.getExtraClassId());
+                ps.setInt(3, dto.getWeekNo());
+                ps.setString(4, dto.getReason());
+                ps.setBoolean(5, dto.isAttended());
+                ps.setObject(6, dto.getAttendedTime());
+                ps.setObject(7, dto.getExitTime());
+                ps.setInt(8, dto.getTestScore());
+                ps.setLong(9, staff.getId());
+                ps.setLong(10, staff.getId());
+            }
+
+            @Override
+            public int getBatchSize() {
+                return dtos.size();
+            }
+        });
+    }
+
 }
 

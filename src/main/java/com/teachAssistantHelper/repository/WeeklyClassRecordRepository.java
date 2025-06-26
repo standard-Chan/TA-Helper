@@ -1,8 +1,10 @@
 package com.teachAssistantHelper.repository;
 
 import com.teachAssistantHelper.domain.ClassEntity;
+import com.teachAssistantHelper.domain.Staff;
 import com.teachAssistantHelper.domain.Student;
 import com.teachAssistantHelper.domain.WeeklyClassRecord;
+import com.teachAssistantHelper.dto.weeklyClassRecord.WeeklyClassRecordRequestDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

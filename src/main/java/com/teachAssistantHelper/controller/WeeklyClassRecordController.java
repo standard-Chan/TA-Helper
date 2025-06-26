@@ -24,16 +24,24 @@ public class WeeklyClassRecordController {
     @PostMapping("/each")
     public ResponseEntity<?> saveEachRecords(@RequestBody List<WeeklyClassRecordRequestDto> recordDtoList,
                                                                           @AuthenticationPrincipal CustomUserDetails userDetails) {
+        long start = System.currentTimeMillis();
         List<WeeklyClassRecordResponseDto> response = recordDtoList.stream()
                 .map(recordDto ->recordService.upsert(recordDto, userDetails.getStaff()))
                 .toList();
+
+        long end = System.currentTimeMillis();
+        System.out.println("소요시간(ms) : " + (end - start));
         return ResponseEntity.status(201).build();
     }
 
     @PostMapping
     public ResponseEntity<?> saveRecords(@RequestBody List<WeeklyClassRecordRequestDto> recordDtoList,
                                          @AuthenticationPrincipal CustomUserDetails userDetails) {
+        long start = System.currentTimeMillis();
         recordService.bulkUpsertRecords(recordDtoList, userDetails.getStaff());
+
+        long end = System.currentTimeMillis();
+        System.out.println("소요시간(ms) : " + (end - start));
         return ResponseEntity.status(201).build();
     }
 
