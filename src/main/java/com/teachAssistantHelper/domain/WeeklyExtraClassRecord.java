@@ -23,9 +23,11 @@ public class WeeklyExtraClassRecord {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_id")
     private Student student;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "extra_class_id")
     private ExtraClass extraClass;
 
     private int weekNo;
@@ -37,9 +39,11 @@ public class WeeklyExtraClassRecord {
     private int testScore;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "created_by")
     private Staff createdBy;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "updated_by")
     private Staff updatedBy;
 
     @CreationTimestamp

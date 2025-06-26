@@ -2,7 +2,7 @@ package com.teachAssistantHelper.controller;
 
 import com.teachAssistantHelper.dto.auth.LoginRequestDto;
 import com.teachAssistantHelper.dto.auth.LoginResponseDto;
-import com.teachAssistantHelper.jwt.JwtUtil;
+import com.teachAssistantHelper.authentication.JwtUtil;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

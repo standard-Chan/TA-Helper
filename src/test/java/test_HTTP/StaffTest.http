@@ -3,7 +3,7 @@ POST http://localhost:8080/api/staffs
 Content-Type: application/json
 
 {
-  "name": "석찬이",
+  "name": "정석찬",
   "userId": "tjrcks",
   "password": "tjrcksdl",
   "phoneNumber": "010-1111-2222",

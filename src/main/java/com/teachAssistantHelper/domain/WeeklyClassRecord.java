@@ -15,6 +15,12 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @Builder
 @Entity
+@Table(
+        name = "weekly_class_record",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"student_id", "class_entity_id", "week_no"})
+        }
+)
 public class WeeklyClassRecord {
 
     @Id
@@ -22,9 +28,11 @@ public class WeeklyClassRecord {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_id")
     private Student student;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "class_entity_id")
     private ClassEntity classEntity;
 
     private int weekNo;
@@ -34,9 +42,11 @@ public class WeeklyClassRecord {
     private String note;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "created_by")
     private Staff createdBy;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "updated_by")
     private Staff updatedBy;
 
     @CreationTimestamp

@@ -1,4 +1,4 @@
-package com.teachAssistantHelper.jwt;
+package com.teachAssistantHelper.authentication;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -29,37 +29,36 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             FilterChain filterChain
     ) throws ServletException, IOException {
 
-        // 로그인 시 jwt 인증 pass
         String path = request.getRequestURI();
         if (path.equals("/api/login")) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        String authHeader = request.getHeader("Authorization");
+        try {
+            String token = extractToken(request);
+            if (token == null) {
+                throw new RuntimeException("토큰 없음");
+            }
 
-        // token 추출
-        String token = extractToken(request);
-        // token 이 없는 경우
-        if (token == null) {
+            String username = jwtUtil.validateAndGetUsername(token);
+            if (username == null) {
+                throw new RuntimeException("유효하지 않은 토큰");
+            }
+
+            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            UsernamePasswordAuthenticationToken authentication =
+                    new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
             filterChain.doFilter(request, response);
-            return;
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 👈 반드시 401로
+            response.setContentType("application/json");
+            response.getWriter().write("{\"error\": \"Unauthorized\"}");
         }
-
-        // jwt 유효성 검증 및 인증 객체 등록
-        String username = jwtUtil.validateAndGetUsername(token);
-        // UserDetails 에 username 등록
-        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-
-        // 인증 객체 생성 후 SecurityContext 에 등록
-        UsernamePasswordAuthenticationToken authentication =
-                new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-
-        filterChain.doFilter(request, response);
     }
+
 
     // JWT 추출 메서드
     private String extractToken(HttpServletRequest request) {

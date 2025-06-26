@@ -1,4 +1,4 @@
-package com.teachAssistantHelper.jwt;
+package com.teachAssistantHelper.authentication;
 
 import io.jsonwebtoken.*;
 import jakarta.servlet.http.Cookie;

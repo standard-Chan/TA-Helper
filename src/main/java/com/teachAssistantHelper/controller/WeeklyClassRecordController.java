@@ -21,12 +21,19 @@ public class WeeklyClassRecordController {
 
     private final WeeklyClassRecordService recordService;
 
-    @PostMapping
-    public ResponseEntity<?> saveRecords(@RequestBody List<WeeklyClassRecordRequestDto> recordDtoList,
+    @PostMapping("/each")
+    public ResponseEntity<?> saveEachRecords(@RequestBody List<WeeklyClassRecordRequestDto> recordDtoList,
                                                                           @AuthenticationPrincipal CustomUserDetails userDetails) {
         List<WeeklyClassRecordResponseDto> response = recordDtoList.stream()
                 .map(recordDto ->recordService.upsert(recordDto, userDetails.getStaff()))
                 .toList();
+        return ResponseEntity.status(201).build();
+    }
+
+    @PostMapping
+    public ResponseEntity<?> saveRecords(@RequestBody List<WeeklyClassRecordRequestDto> recordDtoList,
+                                         @AuthenticationPrincipal CustomUserDetails userDetails) {
+        recordService.bulkUpsertRecords(recordDtoList, userDetails.getStaff());
         return ResponseEntity.status(201).build();
     }
 
