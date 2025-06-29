@@ -19,12 +19,13 @@ public class WeeklyExtraClassRecordController {
 
     private final WeeklyExtraClassRecordService recordService;
 
-    @PostMapping("/each")
-    public ResponseEntity<?> createEach(@RequestBody List<WeeklyExtraClassRecordRequestDto> recordDtoList,
-                                                                    @AuthenticationPrincipal CustomUserDetails userDetails) {
-        List<WeeklyExtraClassRecordResponseDto> response = recordDtoList.stream().map((recordDto) -> recordService.upsert(recordDto, userDetails.getStaff())).toList();
-        return ResponseEntity.ok(response);
-    }
+//    @PostMapping("/each")
+//    데이터 각각을 확인하여 upsert 하는 방식
+//    public ResponseEntity<?> createEach(@RequestBody List<WeeklyExtraClassRecordRequestDto> recordDtoList,
+//                                                                    @AuthenticationPrincipal CustomUserDetails userDetails) {
+//        List<WeeklyExtraClassRecordResponseDto> response = recordDtoList.stream().map((recordDto) -> recordService.upsert(recordDto, userDetails.getStaff())).toList();
+//        return ResponseEntity.ok(response);
+//    }
 
     @PostMapping
     public ResponseEntity<?> upsert(@RequestBody List<WeeklyExtraClassRecordRequestDto> recordDtoList,
@@ -40,25 +41,25 @@ public class WeeklyExtraClassRecordController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<WeeklyExtraClassRecordResponseDto> getById(@PathVariable Long id) {
+    public ResponseEntity<WeeklyExtraClassRecordResponseDto> getById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(recordService.getById(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<WeeklyExtraClassRecordResponseDto> update(@PathVariable Long id,
+    public ResponseEntity<WeeklyExtraClassRecordResponseDto> update(@PathVariable("id") Long id,
                                                                     @RequestBody WeeklyExtraClassRecordRequestDto dto,
                                                                     @AuthenticationPrincipal CustomUserDetails userDetails) {
         return ResponseEntity.ok(recordService.update(id, dto, userDetails.getStaff()));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable Long id) {
+    public ResponseEntity<String> delete(@PathVariable("id") Long id) {
         recordService.delete(id);
         return ResponseEntity.ok("삭제 완료");
     }
 
     @GetMapping("/extraClass/{extraClassId}/week")
-    public ResponseEntity<List<Integer>> getWeekNoListByExtraClass (@PathVariable Long extraClassId) {
+    public ResponseEntity<List<Integer>> getWeekNoListByExtraClass (@PathVariable("extraClassId") Long extraClassId) {
         return ResponseEntity.ok(recordService.getWeekNoByExtraClass(extraClassId));
     }
 

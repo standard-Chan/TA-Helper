@@ -28,14 +28,14 @@ public class AcademyController {
 
     @PutMapping("/{id}")
     public ResponseEntity<AcademyResponseDto> update(
-            @PathVariable Long id,
+            @PathVariable("id") Long id,
             @RequestBody AcademyRequestDto dto
     ) {
         return ResponseEntity.ok(academyService.update(id, dto));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
         academyService.delete(id);
         return ResponseEntity.ok().build();
     }

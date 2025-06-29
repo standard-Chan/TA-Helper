@@ -29,14 +29,14 @@ public class ClassTypeController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ClassTypeResponseDto> updateClassType(
-            @PathVariable Long id,
+            @PathVariable("id") Long id,
             @RequestBody ClassTypeUpdateDto dto
     ) {
         return ResponseEntity.ok(classTypeService.updateClassType(id, dto));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteClassType(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteClassType(@PathVariable("id") Long id) {
         classTypeService.deleteClassType(id);
         return ResponseEntity.ok().build();
     }

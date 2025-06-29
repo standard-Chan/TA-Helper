@@ -1,6 +1,5 @@
 package com.teachAssistantHelper.config;
 
-import com.teachAssistantHelper.authentication.CustomAuthenticationEntryPoint;
 import com.teachAssistantHelper.authentication.JwtAuthorizationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -27,7 +26,6 @@ public class SecurityConfig {
 
     private final JwtAuthorizationFilter jwtAuthorizationFilter;
     private final UserDetailsService userDetailsService;
-//    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
     //CORS
     @Bean
@@ -53,9 +51,6 @@ public class SecurityConfig {
                         .requestMatchers("/api/**").authenticated()
                         .anyRequest().permitAll()
                 )
-//                .exceptionHandling(ex -> ex
-//                        .authenticationEntryPoint(customAuthenticationEntryPoint)
-//                )
                 .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

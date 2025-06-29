@@ -21,27 +21,20 @@ public class WeeklyClassRecordController {
 
     private final WeeklyClassRecordService recordService;
 
-    @PostMapping("/each")
-    public ResponseEntity<?> saveEachRecords(@RequestBody List<WeeklyClassRecordRequestDto> recordDtoList,
-                                                                          @AuthenticationPrincipal CustomUserDetails userDetails) {
-        long start = System.currentTimeMillis();
-        List<WeeklyClassRecordResponseDto> response = recordDtoList.stream()
-                .map(recordDto ->recordService.upsert(recordDto, userDetails.getStaff()))
-                .toList();
-
-        long end = System.currentTimeMillis();
-        System.out.println("소요시간(ms) : " + (end - start));
-        return ResponseEntity.status(201).build();
-    }
+//    @PostMapping("/each")
+//    개별 레코드 처리 방식
+//    public ResponseEntity<?> saveEachRecords(@RequestBody List<WeeklyClassRecordRequestDto> recordDtoList,
+//                                                                          @AuthenticationPrincipal CustomUserDetails userDetails) {
+//        List<WeeklyClassRecordResponseDto> response = recordDtoList.stream()
+//                .map(recordDto ->recordService.upsert(recordDto, userDetails.getStaff()))
+//                .toList();
+//        return ResponseEntity.status(201).build();
+//    }
 
     @PostMapping
     public ResponseEntity<?> saveRecords(@RequestBody List<WeeklyClassRecordRequestDto> recordDtoList,
                                          @AuthenticationPrincipal CustomUserDetails userDetails) {
-        long start = System.currentTimeMillis();
         recordService.bulkUpsertRecords(recordDtoList, userDetails.getStaff());
-
-        long end = System.currentTimeMillis();
-        System.out.println("소요시간(ms) : " + (end - start));
         return ResponseEntity.status(201).build();
     }
 
@@ -57,18 +50,18 @@ public class WeeklyClassRecordController {
     }
 
     @GetMapping("/class/{classId}/week")
-    public ResponseEntity<List<Integer>> getWeekNoListByClass(@PathVariable Long classId) {
+    public ResponseEntity<List<Integer>> getWeekNoListByClass(@PathVariable("classId") Long classId) {
         return ResponseEntity.ok(recordService.getWeekNoListByClass(classId));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<WeeklyClassRecordResponseDto> getById(@PathVariable Long id) {
+    public ResponseEntity<WeeklyClassRecordResponseDto> getById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(recordService.getById(id));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<WeeklyClassRecordResponseDto> update(
-            @PathVariable Long id,
+            @PathVariable("id") Long id,
             @RequestBody WeeklyClassRecordRequestDto dto,
             @AuthenticationPrincipal CustomUserDetails userDetails
     ) {
@@ -76,7 +69,7 @@ public class WeeklyClassRecordController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable Long id) {
+    public ResponseEntity<String> delete(@PathVariable("id") Long id) {
         recordService.delete(id);
         return ResponseEntity.ok("삭제 완료");
     }

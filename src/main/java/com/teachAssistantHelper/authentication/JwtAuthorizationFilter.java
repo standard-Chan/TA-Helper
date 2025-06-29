@@ -6,6 +6,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +17,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 @Component
+@Slf4j
 @RequiredArgsConstructor
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
@@ -30,6 +32,8 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     ) throws ServletException, IOException {
 
         String path = request.getRequestURI();
+        log.info("접속 path URI: " + path);
+
         if (path.equals("/api/login")) {
             filterChain.doFilter(request, response);
             return;
@@ -38,12 +42,12 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         try {
             String token = extractToken(request);
             if (token == null) {
-                throw new RuntimeException("토큰 없음");
+                throw new RuntimeException("토큰이 존재하지 않습니다.");
             }
 
             String username = jwtUtil.validateAndGetUsername(token);
             if (username == null) {
-                throw new RuntimeException("유효하지 않은 토큰");
+                throw new RuntimeException("유효하지 않은 토큰 접속");
             }
 
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
@@ -53,6 +57,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
             filterChain.doFilter(request, response);
         } catch (Exception e) {
+            log.info(e.getMessage());
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 👈 반드시 401로
             response.setContentType("application/json");
             response.getWriter().write("{\"error\": \"Unauthorized\"}");

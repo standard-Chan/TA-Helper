@@ -27,7 +27,7 @@ public class StaffController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<StaffResponseDto> getStaffById(@PathVariable Long id) {
+    public ResponseEntity<StaffResponseDto> getStaffById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(staffService.getStaffById(id));
     }
 
@@ -38,14 +38,14 @@ public class StaffController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteStaff(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteStaff(@PathVariable("id") Long id) {
         staffService.deleteStaff(id);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{id}/role")
     public ResponseEntity<StaffResponseDto> updateRole(
-            @PathVariable Long id,
+            @PathVariable("id") Long id,
             @RequestBody StaffRoleUpdateRequestDto dto
     ) {
         return ResponseEntity.ok(staffService.updateRole(id, dto));

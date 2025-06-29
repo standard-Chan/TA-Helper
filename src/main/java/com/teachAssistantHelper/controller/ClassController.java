@@ -27,20 +27,20 @@ public class ClassController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ClassResponseDto> getById(@PathVariable Long id) {
+    public ResponseEntity<ClassResponseDto> getById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(classService.getById(id));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ClassResponseDto> update(
-            @PathVariable Long id,
+            @PathVariable("id") Long id,
             @RequestBody ClassRequestDto dto
     ) {
         return ResponseEntity.ok(classService.update(id, dto));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
         classService.delete(id);
         return ResponseEntity.ok().build();
     }

@@ -22,6 +22,7 @@ public class AuthController {
     @PostMapping("/login")
     public LoginResponseDto login(@RequestBody LoginRequestDto loginRequest, HttpServletResponse response) {
         // 1. 사용자 인증 시도
+        System.out.println("로그인 시작" + loginRequest.getUsername() + loginRequest.getPassword());
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginRequest.getUsername(),
@@ -29,6 +30,7 @@ public class AuthController {
                 )
         );
         // 2. 인증 성공 시 JWT 생성
+        System.out.println("jwt 생성");
         String token = jwtUtil.createToken(authentication.getName());
         // cookie 생성
         Cookie cookie = jwtUtil.createCookie(token);

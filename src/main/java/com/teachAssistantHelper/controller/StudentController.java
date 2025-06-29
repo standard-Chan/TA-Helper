@@ -27,25 +27,25 @@ public class StudentController {
     }
 
     @GetMapping("/class/{classId}")
-    public ResponseEntity<List<StudentResponseDto>> getByClass(@PathVariable Long classId) {
+    public ResponseEntity<List<StudentResponseDto>> getByClass(@PathVariable("classId") Long classId) {
         return ResponseEntity.ok(studentService.getAllByClass(classId));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<StudentResponseDto> getById(@PathVariable Long id) {
+    public ResponseEntity<StudentResponseDto> getById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(studentService.getById(id));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<StudentResponseDto> update(
-            @PathVariable Long id,
+            @PathVariable("id") Long id,
             @RequestBody StudentRequestDto dto
     ) {
         return ResponseEntity.ok(studentService.update(id, dto));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
         studentService.delete(id);
         return ResponseEntity.ok().build();
     }

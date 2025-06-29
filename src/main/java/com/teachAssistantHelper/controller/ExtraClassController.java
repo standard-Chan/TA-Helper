@@ -27,18 +27,18 @@ public class ExtraClassController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ExtraClassResponseDto> getById(@PathVariable Long id) {
+    public ResponseEntity<ExtraClassResponseDto> getById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(extraClassService.getById(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ExtraClassResponseDto> update(@PathVariable Long id,
+    public ResponseEntity<ExtraClassResponseDto> update(@PathVariable("id") Long id,
                                                         @RequestBody ExtraClassRequestDto dto) {
         return ResponseEntity.ok(extraClassService.update(id, dto));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable Long id) {
+    public ResponseEntity<String> delete(@PathVariable("id") Long id) {
         extraClassService.delete(id);
         return ResponseEntity.ok("삭제 완료");
     }

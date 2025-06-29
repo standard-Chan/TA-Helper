@@ -40,9 +40,18 @@ dependencies {
      runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
      runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
 
+    // --- Mockito ---
+    testImplementation("org.mockito:mockito-core")
+    testImplementation("org.mockito:mockito-junit-jupiter")
+
+    // --- JSON 직렬화용 (ObjectMapper) ---
+    testImplementation("com.fasterxml.jackson.core:jackson-databind")
+//
+//    // --- Spring Security 테스트
+//    testImplementation("org.springframework.security:spring-security-test")
+
     //MYSQL
     implementation("mysql:mysql-connector-java:8.0.33")
-
 
 }
 
