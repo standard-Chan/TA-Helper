@@ -33,8 +33,8 @@ public class AuthController {
         System.out.println("jwt 생성");
         String token = jwtUtil.createToken(authentication.getName());
         // cookie 생성
-        Cookie cookie = jwtUtil.createCookie(token);
-        response.addCookie(cookie);
+
+        jwtUtil.addJwtCookie(response, token);
 
         return new LoginResponseDto(token);
     }

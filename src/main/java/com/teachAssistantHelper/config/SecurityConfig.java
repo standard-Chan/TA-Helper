@@ -31,7 +31,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173/")); // 허용 도메인
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173/", "https://ta-helper.vercel.app")); // 허용 도메인
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true); // 인증 정보 포함 허용 (쿠키, Authorization 헤더 등)
