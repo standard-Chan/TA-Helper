@@ -4,6 +4,8 @@ import com.teachAssistantHelper.dto.student.StudentRequestDto;
 import com.teachAssistantHelper.dto.student.StudentResponseDto;
 import com.teachAssistantHelper.service.StudentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,9 +23,11 @@ public class StudentController {
         return ResponseEntity.ok(studentService.create(dto));
     }
 
-    @GetMapping
-    public ResponseEntity<List<StudentResponseDto>> getAll() {
-        return ResponseEntity.ok(studentService.getAll());
+    @GetMapping()
+    public ResponseEntity<Page<StudentResponseDto>> getPaged(@RequestParam(name = "page", defaultValue = "0") int page,
+                                                             @RequestParam(name = "size", defaultValue = "100") int size) {
+        Pageable pageable = org.springframework.data.domain.PageRequest.of(page, size);
+        return ResponseEntity.ok(studentService.getAll(pageable));
     }
 
     @GetMapping("/class/{classId}")

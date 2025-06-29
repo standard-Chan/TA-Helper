@@ -13,6 +13,8 @@ import com.teachAssistantHelper.repository.WeeklyClassRecordRepository;
 import com.teachAssistantHelper.repository.WeeklyExtraClassRecordRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -41,10 +43,9 @@ public class StudentService {
         return new StudentResponseDto(studentRepository.save(student));
     }
 
-    public List<StudentResponseDto> getAll() {
-        return studentRepository.findAll().stream()
-                .map(StudentResponseDto::new)
-                .collect(Collectors.toList());
+    public Page<StudentResponseDto> getAll(Pageable pageable) {
+        return studentRepository.findAll(pageable)
+                .map(StudentResponseDto::new);
     }
 
     public List<StudentResponseDto> getAllByClass(Long classId) {

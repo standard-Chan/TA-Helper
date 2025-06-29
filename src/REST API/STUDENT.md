@@ -1,20 +1,21 @@
-# 👨‍🎓 Student API 문서
 
-학생(Student) 관련 기능을 제공하는 REST API입니다.  
+# 👨‍🎓 Student API 문서 (with Pagination & Multi-Class)
+
+학생(Student) 관련 기능을 제공하는 REST API입니다.
 모든 API는 `/api/students` 경로를 기준으로 동작합니다.
 
 ---
 
 ## ✅ 엔드포인트 목록
 
-| 메서드 | 경로                            | 설명                   | 요청 바디        | 응답 바디           |
-|--------|----------------------------------|------------------------|------------------|----------------------|
-| POST   | `/api/students`                 | 학생 생성               | ✅ 필요           | 생성된 학생 정보      |
-| GET    | `/api/students`                 | 전체 학생 조회           | ❌ 없음           | 학생 리스트           |
-| GET    | `/api/students/class/{classId}` | 특정 수업의 학생 목록 조회 | ❌ 없음           | 학생 리스트           |
-| GET    | `/api/students/{id}`            | 특정 학생 조회           | ❌ 없음           | 학생 상세 정보        |
-| PUT    | `/api/students/{id}`            | 학생 정보 수정           | ✅ 필요           | 수정된 학생 정보      |
-| DELETE | `/api/students/{id}`            | 학생 삭제               | ❌ 없음           | 없음 (`200 OK` 응답)  |
+| 메서드    | 경로                         | 설명              | 요청 바디 | 응답 바디                      |
+| ------ | -------------------------- | --------------- | ----- | -------------------------- |
+| POST   | `/api/students`            | 학생 생성           | ✅ 필요  | 생성된 학생 정보                  |
+| GET    | `/api/students`            | 전체 학생 페이징 조회    | ❌ 없음  | `Page<StudentResponseDto>` |
+| GET    | `/api/students/class/{id}` | 특정 수업의 학생 목록 조회 | ❌ 없음  | 학생 리스트                     |
+| GET    | `/api/students/{id}`       | 특정 학생 조회        | ❌ 없음  | 학생 상세 정보                   |
+| PUT    | `/api/students/{id}`       | 학생 정보 수정        | ✅ 필요  | 수정된 학생 정보                  |
+| DELETE | `/api/students/{id}`       | 학생 삭제           | ❌ 없음  | 없음 (`200 OK` 응답)           |
 
 ---
 
@@ -30,12 +31,12 @@
   "email": "chulsoo@example.com",
   "age": 17
 }
-````
+```
 
 | 필드명               | 타입      | 설명        |
 | ----------------- | ------- | --------- |
 | name              | String  | 학생 이름     |
-| classId           | Long    | 수업 ID     |
+| classId           | Long    | 소속 수업 ID  |
 | school            | String  | 학교명       |
 | parentPhoneNumber | String  | 보호자 전화번호  |
 | phoneNumber       | String  | 학생 전화번호   |
@@ -50,7 +51,7 @@
 {
   "id": 12,
   "name": "김철수",
-  "classId": 3,
+  "classId": [3, 5],
   "school": "서울고등학교",
   "parentPhoneNumber": "010-1234-5678",
   "phoneNumber": "010-8765-4321",
@@ -59,87 +60,60 @@
 }
 ```
 
-| 필드명               | 타입      | 설명        |
-| ----------------- | ------- | --------- |
-| id                | Long    | 학생 ID     |
-| name              | String  | 학생 이름     |
-| classId           | Long    | 수업 ID     |
-| school            | String  | 학교명       |
-| parentPhoneNumber | String  | 보호자 전화번호  |
-| phoneNumber       | String  | 학생 전화번호   |
-| email             | String  | 학생 이메일 주소 |
-| age               | Integer | 나이        |
+| 필드명               | 타입         | 설명                    |
+| ----------------- | ---------- | --------------------- |
+| id                | Long       | 학생 ID                 |
+| name              | String     | 학생 이름                 |
+| classId           | Set\<Long> | 수업 ID 리스트 (N:1 이상 가능) |
+| school            | String     | 학교명                   |
+| parentPhoneNumber | String     | 보호자 전화번호              |
+| phoneNumber       | String     | 학생 전화번호               |
+| email             | String     | 학생 이메일 주소             |
+| age               | Integer    | 나이                    |
 
 ---
 
-## 📌 예시
+## 📌 페이징 조회
 
-### 생성 예시 (POST `/api/students`)
+### 전체 학생 페이징 조회
 
-**요청**
+`GET /api/students?page=0&size=100`
 
-```json
-{
-  "name": "이영희",
-  "classId": 4,
-  "school": "한양여자고등학교",
-  "parentPhoneNumber": "010-5555-1234",
-  "phoneNumber": "010-3333-4444",
-  "email": "younghee@example.com",
-  "age": 16
-}
-```
+* `page`: 0부터 시작하는 페이지 번호
+* `size`: 페이지 당 학생 수 (기본값: 100)
 
-**응답**
+**응답 예시 (Page 구조):**
 
 ```json
 {
-  "id": 13,
-  "name": "이영희",
-  "classId": 4,
-  "school": "한양여자고등학교",
-  "parentPhoneNumber": "010-5555-1234",
-  "phoneNumber": "010-3333-4444",
-  "email": "younghee@example.com",
-  "age": 16
-}
-```
-
----
-
-### 수업별 학생 조회 예시 (GET `/api/students/class/4`)
-
-**응답**
-
-```json
-[
-  {
-    "id": 13,
-    "name": "이영희",
-    "classId": 4,
-    "school": "한양여자고등학교",
-    "parentPhoneNumber": "010-5555-1234",
-    "phoneNumber": "010-3333-4444",
-    "email": "younghee@example.com",
-    "age": 16
+  "content": [
+    {
+      "id": 1,
+      "name": "김철수",
+      "classId": [2],
+      "school": "서울고",
+      "parentPhoneNumber": "010-1111-2222",
+      "phoneNumber": "010-9999-8888",
+      "email": "kim@example.com",
+      "age": 17
+    },
+    ...
+  ],
+  "pageable": {
+    "pageNumber": 0,
+    "pageSize": 100
   },
-  {
-    "id": 14,
-    "name": "박민수",
-    "classId": 4,
-    "school": "한양고등학교",
-    "parentPhoneNumber": "010-7777-1111",
-    "phoneNumber": "010-2222-3333",
-    "email": "minsoo@example.com",
-    "age": 17
-  }
-]
+  "totalElements": 200,
+  "totalPages": 2,
+  "last": false,
+  "first": true
+}
 ```
 
 ---
 
-> ⛳ 참고:
->
-> * 학생은 반드시 수업(`classId`)에 소속되어야 하며, 수정 시에도 이 정보는 유지됩니다.
-> * `/api/students/class/{classId}`는 해당 수업에 소속된 전체 학생 목록을 반환합니다.
+## ⛳ 참고
 
+* 학생은 여러 수업(`classId` 리스트)과 연결될 수 있습니다.
+* 학생 생성 시에는 단일 수업(`classId`)에 등록되며, 추후 다른 API를 통해 수업 연결을 추가할 수 있습니다.
+* 페이징 API를 사용할 때는 성능 상의 이유로 `Page<StudentResponseDto>` 형식을 활용하는 것이 권장됩니다.
