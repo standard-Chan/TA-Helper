@@ -9,23 +9,23 @@ teaching assistant helper tool
 ---
 # REST API
 API 문서
-- [ACADEMY.md](src/REST%20API/ACADEMY.md)
+- [ACADEMY.md](src/docs/ACADEMY.md)
   - 학원 정보
-- [CLASS.md](src/REST%20API/CLASS.md)
+- [CLASS.md](src/docs/CLASS.md)
   - 수업 정보
-- [CLASS_TYPE.md](src/REST%20API/CLASS_TYPE.md)
+- [CLASS_TYPE.md](src/docs/CLASS_TYPE.md)
   - 수업의 타입 정보 (ex. 개념반, 심화반)
-- [EXTRA_CLASS.md](src/REST%20API/EXTRA_CLASS.md)
+- [EXTRA_CLASS.md](src/docs/EXTRA_CLASS.md)
   - 보충 수업 정보 (ex. 월요일 13시 보충 수업)
-- [NOTICE API.md](src/REST%20API/NOTICE%20API.md)
+- [NOTICE API.md](src/docs/NOTICE%20API.md)
   - 공지 사항 정보
-- [STAFF.md](src/REST%20API/STAFF.md)
+- [STAFF.md](src/docs/STAFF.md)
   - 조교 정보
-- [STUDENT.md](src/REST%20API/STUDENT.md)
+- [STUDENT.md](src/docs/STUDENT.md)
   - 학생 정보
-- [WEEKLY_CLASS_RECORD.md](src/REST%20API/WEEKLY_CLASS_RECORD.md)
+- [WEEKLY_CLASS_RECORD.md](src/docs/WEEKLY_CLASS_RECORD.md)
   - 학생들의 주간 수업 기록 정보
-- [WEEKLY_EXTRA_CLASS_RECORD.md](src/REST%20API/WEEKLY_EXTRA_CLASS_RECORD.md)
+- [WEEKLY_EXTRA_CLASS_RECORD.md](src/docs/WEEKLY_EXTRA_CLASS_RECORD.md)
   - 학생들의 주간 보충 수업 기록 정보
 
 ---

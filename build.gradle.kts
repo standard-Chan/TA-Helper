@@ -53,6 +53,9 @@ dependencies {
     //MYSQL
     implementation("mysql:mysql-connector-java:8.0.33")
 
+    // Web socket
+    implementation("org.springframework.boot:spring-boot-starter-websocket")
+
 }
 
 tasks.test {
